@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="AstBuilder.cs" />
     <Compile Include="CalculationEngine.cs" />
+    <Compile Include="Execution\Matrix.cs" />
     <Compile Include="Execution\ConstantInfo.cs" />
     <Compile Include="Execution\ConstantRegistry.cs" />
     <Compile Include="DataType.cs" />
