@@ -9,7 +9,7 @@ namespace Jace
     public class FormulaContext
     {
         public FormulaContext(IDictionary<string, double> variables,
-            IFunctionRegistry functionRegistry)
+            IObjectRegistry functionRegistry)
         {
             this.Variables = variables;
             this.FunctionRegistry = functionRegistry;
@@ -17,6 +17,6 @@ namespace Jace
 
         public IDictionary<string, double> Variables { get; private set; }
 
-        public IFunctionRegistry FunctionRegistry { get; private set; }
+        public IObjectRegistry FunctionRegistry { get; private set; }
     }
 }

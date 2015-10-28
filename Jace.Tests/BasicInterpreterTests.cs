@@ -24,7 +24,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestBasicInterpreterSubstraction()
         {
-            IFunctionRegistry functionRegistry = new MockFunctionRegistry();
+            IObjectRegistry functionRegistry = new MockFunctionRegistry();
 
             IExecutor executor = new Interpreter();
             double result = executor.Execute(new Subtraction(
@@ -38,7 +38,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestBasicInterpreter1()
         {
-            IFunctionRegistry functionRegistry = new MockFunctionRegistry();
+            IObjectRegistry functionRegistry = new MockFunctionRegistry();
 
             IExecutor executor = new Interpreter();
             // 6 + (2 * 4)
@@ -57,7 +57,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestBasicInterpreterWithVariables()
         {
-            IFunctionRegistry functionRegistry = new MockFunctionRegistry();
+            IObjectRegistry functionRegistry = new MockFunctionRegistry();
 
             Dictionary<string, double> variables = new Dictionary<string, double>();
             variables.Add("var1", 2);

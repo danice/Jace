@@ -16,7 +16,7 @@ namespace Jace
             this.executor = executor;
         }
 
-        public Operation Optimize(Operation operation, IFunctionRegistry functionRegistry)
+        public Operation Optimize(Operation operation, IObjectRegistry functionRegistry)
         {
             if (!operation.DependsOnVariables && operation.GetType() != typeof(IntegerConstant)
                 && operation.GetType() != typeof(FloatingPointConstant))

@@ -10,13 +10,13 @@ namespace Jace
 {
     public class AstBuilder
     {
-        private readonly IFunctionRegistry functionRegistry;
+        private readonly IObjectRegistry functionRegistry;
 
         private Dictionary<char, int> operationPrecedence = new Dictionary<char, int>();
         private Stack<Operation> resultStack = new Stack<Operation>();
         private Stack<Token> operatorStack = new Stack<Token>();
 
-        public AstBuilder(IFunctionRegistry functionRegistry)
+        public AstBuilder(IObjectRegistry functionRegistry)
         {
             this.functionRegistry = functionRegistry;
 

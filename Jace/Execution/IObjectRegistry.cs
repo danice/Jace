@@ -2,7 +2,7 @@
 
 namespace Jace.Execution
 {
-    public interface IFunctionRegistry
+    public interface IObjectRegistry
     {
         FunctionInfo GetFunctionInfo(string functionName);
         bool IsFunctionName(string functionName);

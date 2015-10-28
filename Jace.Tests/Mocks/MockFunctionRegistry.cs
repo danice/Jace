@@ -6,7 +6,7 @@ using Jace.Execution;
 
 namespace Jace.Tests.Mocks
 {
-    public class MockFunctionRegistry : IFunctionRegistry
+    public class MockFunctionRegistry : IObjectRegistry
     {
         private HashSet<string> functionNames;
 

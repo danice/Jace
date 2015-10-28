@@ -13,19 +13,19 @@ namespace Jace.Execution
 #if !NETFX_CORE
     public class DynamicCompiler : IExecutor
     {
-        public double Execute(Operation operation, IFunctionRegistry functionRegistry)
+        public double Execute(Operation operation, IObjectRegistry functionRegistry)
         {
             return Execute(operation, functionRegistry, new Dictionary<string, double>());
         }
 
-        public double Execute(Operation operation, IFunctionRegistry functionRegistry, 
+        public double Execute(Operation operation, IObjectRegistry functionRegistry, 
             IDictionary<string, double> variables)
         {
             return BuildFormula(operation, functionRegistry)(variables);
         }
 
         public Func<IDictionary<string, double>, double> BuildFormula(Operation operation,
-            IFunctionRegistry functionRegistry)
+            IObjectRegistry functionRegistry)
         {
             Func<FormulaContext, double> func = BuildFormulaInternal(operation, functionRegistry);
             return variables =>
@@ -37,7 +37,7 @@ namespace Jace.Execution
         }
 
         private Func<FormulaContext, double> BuildFormulaInternal(Operation operation,
-            IFunctionRegistry functionRegistry)
+            IObjectRegistry functionRegistry)
         {
             DynamicMethod method = new DynamicMethod("MyCalcMethod", typeof(double),
                 new Type[] { typeof(FormulaContext) });
@@ -50,7 +50,7 @@ namespace Jace.Execution
         }
 
         private void GenerateMethodBody(DynamicMethod method, Operation operation, 
-            IFunctionRegistry functionRegistry)
+            IObjectRegistry functionRegistry)
         {
             ILGenerator generator = method.GetILGenerator();
             generator.DeclareLocal(typeof(double));
@@ -60,7 +60,7 @@ namespace Jace.Execution
         }
 
         private void GenerateMethodBody(ILGenerator generator, Operation operation, 
-            IFunctionRegistry functionRegistry)
+            IObjectRegistry functionRegistry)
         {
             if (operation == null)
                 throw new ArgumentNullException("operation");
@@ -273,7 +273,7 @@ namespace Jace.Execution
                 generator.Emit(OpCodes.Ldarg_0);
                 generator.Emit(OpCodes.Callvirt, typeof(FormulaContext).GetProperty("FunctionRegistry").GetGetMethod());
                 generator.Emit(OpCodes.Ldstr, function.FunctionName);
-                generator.Emit(OpCodes.Callvirt, typeof(IFunctionRegistry).GetMethod("GetFunctionInfo", new Type[] { typeof(string) }));
+                generator.Emit(OpCodes.Callvirt, typeof(IObjectRegistry).GetMethod("GetFunctionInfo", new Type[] { typeof(string) }));
                 generator.Emit(OpCodes.Callvirt, typeof(FunctionInfo).GetProperty("Function").GetGetMethod());
                 generator.Emit(OpCodes.Castclass, funcType);
 

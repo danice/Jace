@@ -70,7 +70,7 @@ namespace Jace
         public CalculationEngine(CultureInfo cultureInfo, ExecutionMode executionMode, bool cacheEnabled, bool optimizerEnabled)
         {
             this.executionFormulaCache = new MemoryCache<string, Func<IDictionary<string, double>, double>>();
-            this.FunctionRegistry = new FunctionRegistry(false);
+            this.FunctionRegistry = new ObjectRegistry(false);
             this.ConstantRegistry = new ConstantRegistry(false);
             this.cultureInfo = cultureInfo;
             this.cacheEnabled = cacheEnabled;
@@ -93,7 +93,7 @@ namespace Jace
             RegisterDefaultFunctions();
         }
 
-        internal IFunctionRegistry FunctionRegistry { get; private set; }
+        internal IObjectRegistry FunctionRegistry { get; private set; }
 
         internal IConstantRegistry ConstantRegistry { get; private set; }
 

@@ -25,7 +25,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestBuildFormula1()
         {
-            IFunctionRegistry registry = new MockFunctionRegistry();
+            IObjectRegistry registry = new MockFunctionRegistry();
 
             AstBuilder builder = new AstBuilder(registry);
             Operation operation = builder.Build(new List<Token>() { 
@@ -49,7 +49,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestBuildFormula2()
         {
-            IFunctionRegistry registry = new MockFunctionRegistry();
+            IObjectRegistry registry = new MockFunctionRegistry();
 
             AstBuilder builder = new AstBuilder(registry);
             Operation operation = builder.Build(new List<Token>() {
@@ -71,7 +71,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestBuildFormula3()
         {
-            IFunctionRegistry registry = new MockFunctionRegistry();
+            IObjectRegistry registry = new MockFunctionRegistry();
 
             AstBuilder builder = new AstBuilder(registry);
             Operation operation = builder.Build(new List<Token>() {
@@ -93,7 +93,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestDivision()
         {
-            IFunctionRegistry registry = new MockFunctionRegistry();
+            IObjectRegistry registry = new MockFunctionRegistry();
 
             AstBuilder builder = new AstBuilder(registry);
             Operation operation = builder.Build(new List<Token>() { 
@@ -113,7 +113,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestMultiplication()
         {
-            IFunctionRegistry registry = new MockFunctionRegistry();
+            IObjectRegistry registry = new MockFunctionRegistry();
 
             AstBuilder builder = new AstBuilder(registry);
             Operation operation = builder.Build(new List<Token>() { 
@@ -131,7 +131,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestExponentiation()
         {
-            IFunctionRegistry registry = new MockFunctionRegistry();
+            IObjectRegistry registry = new MockFunctionRegistry();
 
             AstBuilder builder = new AstBuilder(registry);
             Operation operation = builder.Build(new List<Token>() { 
@@ -149,7 +149,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestModulo()
         {
-            IFunctionRegistry registry = new MockFunctionRegistry();
+            IObjectRegistry registry = new MockFunctionRegistry();
 
             AstBuilder builder = new AstBuilder(registry);
             Operation operation = builder.Build(new List<Token>() { 
@@ -167,7 +167,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestVariable()
         {
-            IFunctionRegistry registry = new MockFunctionRegistry();
+            IObjectRegistry registry = new MockFunctionRegistry();
 
             AstBuilder builder = new AstBuilder(registry);
             Operation operation = builder.Build(new List<Token>() { 
@@ -185,7 +185,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestMultipleVariable()
         {
-            IFunctionRegistry registry = new MockFunctionRegistry();
+            IObjectRegistry registry = new MockFunctionRegistry();
 
             AstBuilder builder = new AstBuilder(registry);
             Operation operation = builder.Build(new List<Token>() { 
@@ -213,7 +213,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestSinFunction1()
         {
-            IFunctionRegistry registry = new MockFunctionRegistry();
+            IObjectRegistry registry = new MockFunctionRegistry();
 
             AstBuilder builder = new AstBuilder(registry);
             Operation operation = builder.Build(new List<Token>() { 
@@ -230,7 +230,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestSinFunction2()
         {
-            IFunctionRegistry registry = new MockFunctionRegistry();
+            IObjectRegistry registry = new MockFunctionRegistry();
 
             AstBuilder builder = new AstBuilder(registry);
             Operation operation = builder.Build(new List<Token>() { 
@@ -252,7 +252,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestSinFunction3()
         {
-            IFunctionRegistry registry = new MockFunctionRegistry();
+            IObjectRegistry registry = new MockFunctionRegistry();
 
             AstBuilder builder = new AstBuilder(registry);
             Operation operation = builder.Build(new List<Token>() { 
@@ -280,7 +280,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestUnaryMinus()
         {
-            IFunctionRegistry registry = new MockFunctionRegistry();
+            IObjectRegistry registry = new MockFunctionRegistry();
 
             AstBuilder builder = new AstBuilder(registry);
             Operation operation = builder.Build(new List<Token>() { 
@@ -307,7 +307,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestBuildInvalidFormula1()
         {
-            IFunctionRegistry registry = new MockFunctionRegistry();
+            IObjectRegistry registry = new MockFunctionRegistry();
 
             AstBuilder builder = new AstBuilder(registry);
 
@@ -327,7 +327,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestBuildInvalidFormula2()
         {
-            IFunctionRegistry registry = new MockFunctionRegistry();
+            IObjectRegistry registry = new MockFunctionRegistry();
 
             AstBuilder builder = new AstBuilder(registry);
 
@@ -347,7 +347,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestBuildInvalidFormula3()
         {
-            IFunctionRegistry registry = new MockFunctionRegistry();
+            IObjectRegistry registry = new MockFunctionRegistry();
 
             AstBuilder builder = new AstBuilder(registry);
 
@@ -365,7 +365,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestBuildInvalidFormula4()
         {
-            IFunctionRegistry registry = new MockFunctionRegistry();
+            IObjectRegistry registry = new MockFunctionRegistry();
 
             AstBuilder builder = new AstBuilder(registry);
 
@@ -383,7 +383,7 @@ namespace Jace.Tests
         [TestMethod]
         public void TestBuildInvalidFormula5()
         {
-            IFunctionRegistry registry = new MockFunctionRegistry();
+            IObjectRegistry registry = new MockFunctionRegistry();
 
             AstBuilder builder = new AstBuilder(registry);
 

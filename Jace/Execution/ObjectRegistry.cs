@@ -6,12 +6,12 @@ using System.Reflection;
 
 namespace Jace.Execution
 {
-    public class FunctionRegistry : IFunctionRegistry
+    public class ObjectRegistry : IObjectRegistry
     {
         private readonly bool caseSensitive;
         private readonly Dictionary<string, FunctionInfo> functions;
 
-        public FunctionRegistry(bool caseSensitive)
+        public ObjectRegistry(bool caseSensitive)
         {
             this.caseSensitive = caseSensitive;
             this.functions = new Dictionary<string, FunctionInfo>();
