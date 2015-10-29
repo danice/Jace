@@ -1,4 +1,5 @@
-﻿using System;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -10,7 +11,7 @@ using Jace.Util;
 
 namespace Jace.Execution
 {
-#if !NETFX_CORE
+#if Use_Reflection_emit
     public class DynamicCompiler : IExecutor
     {
         public double Execute(Operation operation, IObjectRegistry functionRegistry)
