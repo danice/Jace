@@ -121,13 +121,31 @@ namespace Jace.Execution
             {
                 Function function = (Function)operation;
 
-                FunctionInfo functionInfo = functionRegistry.GetFunctionInfo(function.FunctionName);
+                FunctionInfo functionInfo = (functionRegistry.GetObjectInfo(function.FunctionName) as FunctionInfo);
 
                 double[] arguments = new double[functionInfo.NumberOfParameters];
                 for (int i = 0; i < arguments.Length; i++)
                     arguments[i] = Execute(function.Arguments[i], functionRegistry, variables);
 
                 return Invoke(functionInfo.Function, arguments);
+            }
+            else if (operation.GetType() == typeof(Matrix))
+            {
+                Matrix matrix = (Matrix)operation;
+
+                MatrixInfo matrixInfo = (functionRegistry.GetObjectInfo(matrix.FunctionName) as MatrixInfo);
+
+                var arguments = new int[matrixInfo.NumberOfParameters];
+                for (int i = 0; i < arguments.Length; i++)
+                    arguments[i] = (int) Execute(matrix.Arguments[i], functionRegistry, variables);
+
+                if (arguments.Length == 2)
+                {
+                    return matrixInfo[arguments[0]-1, arguments[1]-1];
+                }
+                else
+                    return matrixInfo[arguments[0]-1, 0];
+                
             }
             else
             {

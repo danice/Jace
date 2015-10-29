@@ -43,7 +43,7 @@ namespace Jace.Execution
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException("name");
 
-            if (engine.FunctionRegistry.IsFunctionName(name))
+            if (engine.FunctionRegistry.IsObjectName(name))
                 throw new ArgumentException(string.Format("The name \"{0}\" is a function name. Parameters cannot have this name.", name), "name");
 
             if (parameters.Any(p => p.Name == name))

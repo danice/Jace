@@ -243,6 +243,21 @@ namespace Jace
             ConstantRegistry.RegisterConstant(constantName, value);
         }
 
+        /// <summary>
+        /// Add a function to the calculation engine.
+        /// </summary>
+        /// <param name="name">The name of the function. This name can be used in mathematical formulas.</param>
+        /// <param name="function">The implemenation of the function.</param>
+        public void AddMatrix(string name, int rows, int cols, params double[] values)
+        {
+            FunctionRegistry.RegisterMatrix(name, rows, cols, values);
+        }
+
+        public void AddMatrix(string name, bool isOverWritable, int rows, int cols, params double[] values)
+        {
+            FunctionRegistry.RegisterMatrix(name, isOverWritable, rows, cols, values);
+        }
+
         private void RegisterDefaultFunctions()
         {
             FunctionRegistry.RegisterFunction("sin", (Func<double, double>)((a) => Math.Sin(a)), false);
@@ -323,7 +338,7 @@ namespace Jace
                 if(ConstantRegistry.IsConstantName(variableName) && !ConstantRegistry.GetConstantInfo(variableName).IsOverWritable)
                     throw new ArgumentException(string.Format("The name \"{0}\" is a reservered variable name that cannot be overwritten.", variableName), "variables");
 
-                if (FunctionRegistry.IsFunctionName(variableName))
+                if (FunctionRegistry.IsObjectName(variableName))
                     throw new ArgumentException(string.Format("The name \"{0}\" is a function name. Parameters cannot have this name.", variableName), "variables");
             }
         }

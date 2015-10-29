@@ -267,19 +267,38 @@ namespace Jace.Execution
             {
                 Function function = (Function)operation;
 
-                FunctionInfo functionInfo = functionRegistry.GetFunctionInfo(function.FunctionName);
-                Type funcType = GetFuncType(functionInfo.NumberOfParameters);
+                var objInfo = functionRegistry.GetObjectInfo(function.FunctionName);
+                Type funcType = GetFuncType(objInfo.NumberOfParameters);
 
                 generator.Emit(OpCodes.Ldarg_0);
                 generator.Emit(OpCodes.Callvirt, typeof(FormulaContext).GetProperty("FunctionRegistry").GetGetMethod());
                 generator.Emit(OpCodes.Ldstr, function.FunctionName);
-                generator.Emit(OpCodes.Callvirt, typeof(IObjectRegistry).GetMethod("GetFunctionInfo", new Type[] { typeof(string) }));
+                generator.Emit(OpCodes.Callvirt, typeof(IObjectRegistry).GetMethod("GetObjectInfo", new Type[] { typeof(string) }));
                 generator.Emit(OpCodes.Callvirt, typeof(FunctionInfo).GetProperty("Function").GetGetMethod());
                 generator.Emit(OpCodes.Castclass, funcType);
 
-                for (int i = 0; i < functionInfo.NumberOfParameters; i++)
+                for (int i = 0; i < objInfo.NumberOfParameters; i++)
                     GenerateMethodBody(generator, function.Arguments[i], functionRegistry);
 
+                generator.Emit(OpCodes.Call, funcType.GetMethod("Invoke"));
+            }
+            else if (operation.GetType() == typeof(Matrix))
+            {
+                var matrix = (Matrix)operation;
+
+                var matrixInfo = functionRegistry.GetObjectInfo(matrix.FunctionName);
+                Type funcType = GetMatrixType();
+
+                generator.Emit(OpCodes.Ldarg_0);
+                generator.Emit(OpCodes.Callvirt, typeof(FormulaContext).GetProperty("FunctionRegistry").GetGetMethod());
+                generator.Emit(OpCodes.Ldstr, matrix.FunctionName);
+                generator.Emit(OpCodes.Callvirt, typeof(IObjectRegistry).GetMethod("GetObjectInfo", new Type[] { typeof(string) }));
+                generator.Emit(OpCodes.Callvirt, typeof(MatrixInfo).GetMethod("GetItemBaseOne"));
+                generator.Emit(OpCodes.Castclass, funcType);
+
+                for (int i = 0; i < matrixInfo.NumberOfParameters; i++)
+                    GenerateMethodBody(generator, matrix.Arguments[i], functionRegistry);
+                
                 generator.Emit(OpCodes.Call, funcType.GetMethod("Invoke"));
             }
             else
@@ -299,23 +318,28 @@ namespace Jace.Execution
 
             return funcType.MakeGenericType(typeArguments);
         }
+
+        private Type GetMatrixType()
+        {
+            return typeof(MatrixInfo);
+        }
     }
 #else
     public class DynamicCompiler : IExecutor
     {
-        public double Execute(Operation operation, IFunctionRegistry functionRegistry)
+        public double Execute(Operation operation, IObjectRegistry functionRegistry)
         {
             return Execute(operation, functionRegistry, new Dictionary<string, double>());
         }
 
-        public double Execute(Operation operation, IFunctionRegistry functionRegistry, 
+        public double Execute(Operation operation, IObjectRegistry functionRegistry, 
             IDictionary<string, double> variables)
         {
             return BuildFormula(operation, functionRegistry)(variables);
         }
 
         public Func<IDictionary<string, double>, double> BuildFormula(Operation operation,
-            IFunctionRegistry functionRegistry)
+            IObjectRegistry functionRegistry)
         {
             Func<FormulaContext, double> func = BuildFormulaInternal(operation, functionRegistry);
             return variables =>
@@ -327,7 +351,7 @@ namespace Jace.Execution
         }
 
         private Func<FormulaContext, double> BuildFormulaInternal(Operation operation, 
-            IFunctionRegistry functionRegistry)
+            IObjectRegistry functionRegistry)
         {
             ParameterExpression contextParameter = Expression.Parameter(typeof(FormulaContext), "context");
 
@@ -343,7 +367,7 @@ namespace Jace.Execution
         }
 
         private Expression GenerateMethodBody(Operation operation, ParameterExpression contextParameter,
-            IFunctionRegistry functionRegistry)
+            IObjectRegistry functionRegistry)
         {
             if (operation == null)
                 throw new ArgumentNullException("operation");
@@ -509,7 +533,7 @@ namespace Jace.Execution
             {
                 Function function = (Function)operation;
 
-                FunctionInfo functionInfo = functionRegistry.GetFunctionInfo(function.FunctionName);
+                FunctionInfo functionInfo = (functionRegistry.GetObjectInfo(function.FunctionName) as FunctionInfo);
                 Type funcType = GetFuncType(functionInfo.NumberOfParameters);
                 Type[] parameterTypes = (from i in Enumerable.Range(0, functionInfo.NumberOfParameters)
                                             select typeof(double)).ToArray();
@@ -526,12 +550,41 @@ namespace Jace.Execution
                     new[] { functionInfoVariable },
                     Expression.Assign(
                         functionInfoVariable,
-                        Expression.Call(getFunctionRegistry, typeof(IFunctionRegistry).GetRuntimeMethod("GetFunctionInfo", new Type[] { typeof(string) }), Expression.Constant(function.FunctionName))
+                        Expression.Call(getFunctionRegistry, typeof(IObjectRegistry).GetRuntimeMethod("GetFunctionInfo", new Type[] { typeof(string) }), Expression.Constant(function.FunctionName))
                     ),
                     Expression.Call(
                         Expression.Convert(Expression.Property(functionInfoVariable, "Function"), funcType),
                         funcType.GetRuntimeMethod("Invoke", parameterTypes),
                         arguments));
+            }
+            else if (operation.GetType() == typeof(Matrix))
+            {
+                Matrix matrix = (Matrix)operation;
+
+                MatrixInfo matrixInfo = (functionRegistry.GetObjectInfo(matrix.FunctionName) as MatrixInfo);
+                Type matrixType = typeof(MatrixInfo);
+                Type[] parameterTypes = (from i in Enumerable.Range(0, matrixInfo.NumberOfParameters)
+                                         select typeof(int)).ToArray();
+
+                Expression[] arguments = new Expression[matrixInfo.NumberOfParameters];
+                for (int i = 0; i < matrixInfo.NumberOfParameters; i++)
+                    arguments[i] = Expression.Convert(GenerateMethodBody(matrix.Arguments[i], contextParameter, functionRegistry), typeof(int));
+
+                Expression getFunctionRegistry = Expression.Property(contextParameter, "FunctionRegistry");
+
+                ParameterExpression matrixInfoVariable = Expression.Variable(typeof(MatrixInfo));
+                var assign = Expression.Assign(
+                        matrixInfoVariable,
+                        Expression.Call(getFunctionRegistry, typeof(IObjectRegistry).GetRuntimeMethod("GetMatrixInfo", new Type[] { typeof(string) }), Expression.Constant(matrix.FunctionName))
+                    );
+                var call = Expression.Call(
+                        matrixInfoVariable,
+                        matrixType.GetRuntimeMethod("GetItemBaseOne", parameterTypes),
+                        arguments);
+                return Expression.Block(
+                    new[] { matrixInfoVariable },
+                    assign,
+                    call);
             }
             else
             {

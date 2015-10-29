@@ -5,22 +5,26 @@ using System.Text;
 
 namespace Jace.Execution
 {
-    public class FunctionInfo
+    public class FunctionInfo : RegistryBaseInfo
     {
-        public FunctionInfo(string functionName, int numberOfParameters, bool isOverWritable, Delegate function)
+        int numberOfParameters;
+        public FunctionInfo(string functionName, bool isOverWritable, Delegate function) : base(functionName, isOverWritable)
         {
-            this.FunctionName = functionName;
-            this.NumberOfParameters = numberOfParameters;
-            this.IsOverWritable = isOverWritable;
             this.Function = function;
+
+#if NETFX_CORE
+            numberOfParameters = function.GetMethodInfo().GetParameters().Length;
+#else
+            numberOfParameters = function.Method.GetParameters().Length;
+#endif
+
         }
 
-        public string FunctionName { get; private set; }
-        
-        public int NumberOfParameters { get; private set; }
-
-        public bool IsOverWritable { get; set; }
-
         public Delegate Function { get; private set; }
+
+        protected override int GetNumberOfParameters()
+        {
+            return numberOfParameters;
+        }
     }
 }

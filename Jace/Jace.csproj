@@ -46,7 +46,6 @@
   <ItemGroup>
     <Compile Include="AstBuilder.cs" />
     <Compile Include="CalculationEngine.cs" />
-    <Compile Include="Execution\Matrix.cs" />
     <Compile Include="Execution\ConstantInfo.cs" />
     <Compile Include="Execution\ConstantRegistry.cs" />
     <Compile Include="DataType.cs" />
@@ -55,15 +54,18 @@
     <Compile Include="Execution\FormulaBuilder.cs" />
     <Compile Include="Execution\IConstantRegistry.cs" />
     <Compile Include="Execution\IExecutor.cs" />
-    <Compile Include="Execution\IFunctionRegistry.cs" />
     <Compile Include="Execution\Interpreter.cs" />
+    <Compile Include="Execution\IObjectRegistry.cs" />
+    <Compile Include="Execution\MatrixInfo.cs" />
+    <Compile Include="Execution\ObjectRegistry.cs" />
     <Compile Include="Execution\ParameterInfo.cs" />
     <Compile Include="Execution\FunctionInfo.cs" />
-    <Compile Include="Execution\FunctionRegistry.cs" />
+    <Compile Include="Execution\RegistryBaseInfo.cs" />
     <Compile Include="FormulaContext.cs" />
     <Compile Include="Operations\Addition.cs" />
     <Compile Include="Operations\Constant.cs" />
     <Compile Include="Operations\Division.cs" />
+    <Compile Include="Operations\Matrix.cs" />
     <Compile Include="Operations\NotEqual.cs" />
     <Compile Include="Operations\Exponentiation.cs" />
     <Compile Include="Operations\Function.cs" />

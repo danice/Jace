@@ -54,7 +54,7 @@ namespace Jace
                         resultStack.Push(new FloatingPointConstant((double)token.Value));
                         break;
                     case TokenType.Text:
-                        if (functionRegistry.IsFunctionName((string)token.Value))
+                        if (functionRegistry.IsObjectName((string)token.Value))
                         {
                             operatorStack.Push(token);
                         }
@@ -101,7 +101,7 @@ namespace Jace
                             else
                             {
                                 operatorStack.Pop();
-                                resultStack.Push(ConvertFunction(operation2Token));
+                                resultStack.Push(ConvertFunctionOrMatrix(operation2Token));
                             }
                         }
 
@@ -133,7 +133,7 @@ namespace Jace
                         resultStack.Push(ConvertOperation(token));
                         break;
                     case TokenType.Text:
-                        resultStack.Push(ConvertFunction(token));
+                        resultStack.Push(ConvertFunctionOrMatrix(token));
                         break;
                 }
             }
@@ -253,26 +253,29 @@ namespace Jace
             }
         }
 
-        private Operation ConvertFunction(Token functionToken)
+        private Operation ConvertFunctionOrMatrix(Token elementToken)
         {
             try
             {
-                string functionName = ((string)functionToken.Value).ToLowerInvariant();
+                string name = ((string)elementToken.Value).ToLowerInvariant();
 
-                if (functionRegistry.IsFunctionName(functionName))
+                if (functionRegistry.IsObjectName(name))
                 {
-                    FunctionInfo functionInfo = functionRegistry.GetFunctionInfo(functionName);
+                    var obj = functionRegistry.GetObjectInfo(name);
                             
                     List<Operation> operations = new List<Operation>();
-                    for (int i = 0; i < functionInfo.NumberOfParameters; i++)
+                    for (int i = 0; i < obj.NumberOfParameters; i++)
                         operations.Add(resultStack.Pop());
                     operations.Reverse();
 
-                    return new Function(DataType.FloatingPoint, functionName, operations);
-                }
+                    if (obj is FunctionInfo)
+                        return new Function(DataType.FloatingPoint, name, operations);
+                    else
+                        return new Matrix(DataType.FloatingPoint, name, operations);
+                }               
                 else
                 {
-                    throw new ArgumentException(string.Format("Unknown function \"{0}\".", functionToken.Value), "function");
+                    throw new ArgumentException(string.Format("Unknown function \"{0}\".", elementToken.Value), "function");
                 }
             }
             catch (InvalidOperationException)
@@ -280,7 +283,7 @@ namespace Jace
                 // If we encounter a Stack empty issue this means there is a syntax issue in 
                 // the mathematical formula
                 throw new ParseException(string.Format("There is a syntax issue for the function \"{0}\" at position {1}. " +
-                    "The number of arguments does not match with what is expected.", functionToken.Value, functionToken.StartPosition));
+                    "The number of arguments does not match with what is expected.", elementToken.Value, elementToken.StartPosition));
             }
         }
 
