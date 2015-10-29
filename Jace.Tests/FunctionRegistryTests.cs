@@ -27,10 +27,10 @@ namespace Jace.Tests
             Func<double, double, double> testFunction = (a, b) => a * b;
             registry.RegisterFunction("test", testFunction);
 
-            FunctionInfo functionInfo = registry.GetFunctionInfo("test");
+            FunctionInfo functionInfo = (registry.GetObjectInfo("test") as FunctionInfo);
             
             Assert.IsNotNull(functionInfo);
-            Assert.AreEqual("test", functionInfo.FunctionName);
+            Assert.AreEqual("test", functionInfo.Name);
             Assert.AreEqual(2, functionInfo.NumberOfParameters);
             Assert.AreEqual(testFunction, functionInfo.Function);
         }

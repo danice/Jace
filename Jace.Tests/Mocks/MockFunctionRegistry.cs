@@ -20,12 +20,12 @@ namespace Jace.Tests.Mocks
             this.functionNames = new HashSet<string>(functionNames);
         }
 
-        public FunctionInfo GetFunctionInfo(string functionName)
+        public FunctionInfo GetObjectInfo(string functionName)
         {
-            return new FunctionInfo(functionName, 1, false, null);
+            return new FunctionInfo(functionName, false, null);
         }
 
-        public bool IsFunctionName(string functionName)
+        public bool IsObjectName(string functionName)
         {
             return functionNames.Contains(functionName);
         }
@@ -41,6 +41,33 @@ namespace Jace.Tests.Mocks
         }
 
         public void RegisterFunction(string functionName, int numberOfParameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        RegistryBaseInfo IObjectRegistry.GetObjectInfo(string functionName)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void RegisterMatrix(string matrixName, int rows, int cols, params double[] values)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RegisterMatrix(string matrixName, bool isOverWritable, int rows, int cols, params double[] values)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public FunctionInfo GetFunctionInfo(string functionName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public MatrixInfo GetMatrixInfo(string functionName)
         {
             throw new NotImplementedException();
         }
