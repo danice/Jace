@@ -587,6 +587,15 @@ namespace Jace.Execution
                     assign,
                     call);
             }
+            else if (operation.GetType() == typeof(Negation))
+            {
+                var negation = (Negation)operation;
+                Expression argument = GenerateMethodBody(negation.Argument, contextParameter, functionRegistry);
+
+                return Expression.Condition(Expression.Equal(argument, Expression.Constant(0.0)),
+                    Expression.Constant(1.0),
+                    Expression.Constant(0.0));
+            }
             else
             {
                 throw new ArgumentException(string.Format("Unsupported operation \"{0}\".", operation.GetType().FullName), "operation");

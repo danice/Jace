@@ -687,5 +687,29 @@ namespace Jace.Tests
             double result = engine.Calculate("var1 == 2", variables);
             Assert.AreEqual(1.0, result);
         }
+
+        [TestMethod]
+        public void TestNegationCompiled1()
+        {
+            CalculationEngine engine = new CalculationEngine(CultureInfo.InvariantCulture, ExecutionMode.Compiled);
+
+            Dictionary<string, double> variables = new Dictionary<string, double>();
+            variables.Add("var1", 0);            
+
+            double result = engine.Calculate("!var1", variables);
+            Assert.AreEqual(1, result);
+        }
+
+        [TestMethod]
+        public void TestNegationCompiled2()
+        {
+            CalculationEngine engine = new CalculationEngine(CultureInfo.InvariantCulture, ExecutionMode.Compiled);
+
+            Dictionary<string, double> variables = new Dictionary<string, double>();
+            variables.Add("var1", 10);            
+
+            double result = engine.Calculate("!var1", variables);
+            Assert.AreEqual(0, result);
+        }
     }
 }

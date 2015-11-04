@@ -199,6 +199,10 @@ namespace Jace
                         argument1 = resultStack.Pop();
 
                         return new UnaryMinus(argument1.DataType, argument1);
+                    case '!':
+                        argument1 = resultStack.Pop();
+
+                        return new Negation(argument1.DataType, argument1);
                     case '^':
                         Operation exponent = resultStack.Pop();
                         Operation @base = resultStack.Pop();
