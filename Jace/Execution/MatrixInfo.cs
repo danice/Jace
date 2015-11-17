@@ -72,7 +72,12 @@ namespace Jace.Execution
 
         public double this[int iRow, int iCol]      // Access this MatrixInfo as a 2D array
         {
-            get { return mat[iRow * cols + iCol]; }
+            get { 
+                if (cols < 2)
+                    return mat[iRow]; 
+                else 
+                    return mat[iRow * cols + iCol]; 
+            }
             set { mat[iRow * cols + iCol] = value; }
         }
 
@@ -86,6 +91,11 @@ namespace Jace.Execution
             return this[iRow - 1, iCol - 1];
         }
 
+        public double GetRowItemBaseOne(int iRow)
+        {
+            return mat[iRow - 1];
+        }
+       
         public double[] Values
         {
             set

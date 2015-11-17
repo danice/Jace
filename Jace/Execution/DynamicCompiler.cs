@@ -578,9 +578,12 @@ namespace Jace.Execution
                         matrixInfoVariable,
                         Expression.Call(getFunctionRegistry, typeof(IObjectRegistry).GetRuntimeMethod("GetMatrixInfo", new Type[] { typeof(string) }), Expression.Constant(matrix.FunctionName))
                     );
+
+
+                var method = matrixInfo.NumberOfParameters == 1 ? matrixType.GetRuntimeMethod("GetRowItemBaseOne", parameterTypes) : matrixType.GetRuntimeMethod("GetItemBaseOne", parameterTypes);
                 var call = Expression.Call(
                         matrixInfoVariable,
-                        matrixType.GetRuntimeMethod("GetItemBaseOne", parameterTypes),
+                        method,
                         arguments);
                 return Expression.Block(
                     new[] { matrixInfoVariable },

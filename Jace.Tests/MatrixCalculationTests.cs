@@ -91,6 +91,22 @@ namespace Jace.Tests
             Assert.AreEqual(7.0, result);
         }
 
+        [TestMethod]
+        public void TestOneRowMatrixGetItemReturnCompiled()
+        {
+            //arrange
+            CalculationEngine engine = new CalculationEngine(CultureInfo.InvariantCulture,
+                ExecutionMode.Compiled, false, false);
+            engine.AddMatrix("M", 3, 1, 1, 2, 3);
+
+            //act
+            double result = engine.Calculate("M(2)");
+
+
+            //assert
+            Assert.AreEqual(2.0, result);
+        }
+
         
     }
 }
