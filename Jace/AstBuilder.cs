@@ -22,6 +22,7 @@ namespace Jace
 
             operationPrecedence.Add('(', 0);
             operationPrecedence.Add('&', 1);
+            operationPrecedence.Add('|', 1);
             operationPrecedence.Add('<', 2);
             operationPrecedence.Add('>', 2);
             operationPrecedence.Add('≤', 2);
@@ -215,6 +216,12 @@ namespace Jace
                         dataType = RequiredDataType(argument1, argument2);
 
                         return new And(dataType, argument1, argument2);
+                    case '|':
+                        argument2 = resultStack.Pop();
+                        argument1 = resultStack.Pop();
+                        dataType = RequiredDataType(argument1, argument2);
+
+                        return new Or(dataType, argument1, argument2);
                     case '<':
                         argument2 = resultStack.Pop();
                         argument1 = resultStack.Pop();

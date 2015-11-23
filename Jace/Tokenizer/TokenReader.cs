@@ -172,6 +172,15 @@ namespace Jace.Tokenizer
                                 isFormulaSubPart = false;
                             }                            
                             break;
+                        case '|':
+                            if (i + 1 < characters.Length && characters[i + 1] == '|')
+                            {
+                                tokens.Add(new Token() { TokenType = TokenType.Operation, Value = '|', StartPosition = i++, Length = 2 });
+                                isFormulaSubPart = false;
+                            }
+                            else
+                                throw new ParseException(string.Format("Invalid token \"{0}\" detected at position {1}.", characters[i], i));
+                            break;
                         case '=':
                             if (i + 1 < characters.Length && characters[i + 1] == '=')
                             {

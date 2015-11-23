@@ -89,10 +89,17 @@ namespace Jace.Execution
             }
             else if (operation.GetType() == typeof(And))
             {
-                And lessThan = (And)operation;
-                var opr1 = Execute(lessThan.Argument1, functionRegistry, variables) != 0;
-                var opr2 = Execute(lessThan.Argument2, functionRegistry, variables) != 0;
+                And and = (And)operation;
+                var opr1 = Execute(and.Argument1, functionRegistry, variables) != 0;
+                var opr2 = Execute(and.Argument2, functionRegistry, variables) != 0;
                 return (opr1 && opr2) ? 1.0 : 0.0;
+            }
+            else if (operation.GetType() == typeof(Or))
+            {
+                Or or = (Or)operation;
+                var opr1 = Execute(or.Argument1, functionRegistry, variables) != 0;
+                var opr2 = Execute(or.Argument2, functionRegistry, variables) != 0;
+                return (opr1 || opr2) ? 1.0 : 0.0;
             }
             else if(operation.GetType() == typeof(LessThan))
             {

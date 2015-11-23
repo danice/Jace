@@ -306,6 +306,44 @@ namespace Jace.Tests
         }
 
         [TestMethod]
+        public void TestOrTrueCompiled()
+        {
+            CalculationEngine engine = new CalculationEngine(CultureInfo.InvariantCulture, ExecutionMode.Compiled, true, false);
+            double result = engine.Calculate("(1||0)");
+
+            Assert.AreEqual(1, result);
+        }
+
+        [TestMethod]
+        public void TestOrTrueInterpreted()
+        {
+            CalculationEngine engine = new CalculationEngine(CultureInfo.InvariantCulture, ExecutionMode.Interpreted, true, false);
+            double result = engine.Calculate("(1||0)");
+
+            Assert.AreEqual(1, result);
+        }
+
+        [TestMethod]
+        public void TestOrFalseCompiled()
+        {
+            CalculationEngine engine = new CalculationEngine(CultureInfo.InvariantCulture, ExecutionMode.Compiled, true, false);
+            double result = engine.Calculate("(0||0)");
+
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void TestOrFalseInterpreted()
+        {
+            CalculationEngine engine = new CalculationEngine(CultureInfo.InvariantCulture, ExecutionMode.Interpreted, true, false);
+            double result = engine.Calculate("(0||0)");
+
+            Assert.AreEqual(0, result);
+        }
+
+
+
+        [TestMethod]
         public void TestSingleEqualTrueCompiled()
         {
             CalculationEngine engine = new CalculationEngine(CultureInfo.InvariantCulture, ExecutionMode.Compiled, true, false);
