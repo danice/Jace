@@ -288,6 +288,27 @@ namespace Jace.Tests
         }
 
         [TestMethod]
+        public void TestAndCompiled()
+        {
+            CalculationEngine engine = new CalculationEngine(CultureInfo.InvariantCulture, ExecutionMode.Compiled, true, false);
+            double result = engine.Calculate("(1&0)");
+
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void TestAndInterpreted()
+        {
+            CalculationEngine engine = new CalculationEngine(CultureInfo.InvariantCulture, ExecutionMode.Interpreted, true, false);
+            double result = engine.Calculate("(1&0)");
+
+            Assert.AreEqual(0, result);
+        }
+
+
+
+
+        [TestMethod]
         public void TestBuild()
         { 
             CalculationEngine engine = new CalculationEngine();

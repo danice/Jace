@@ -69,6 +69,7 @@
     <Compile Include="Operations\Constant.cs" />
     <Compile Include="Operations\Division.cs" />
     <Compile Include="Operations\Matrix.cs" />
+    <Compile Include="Operations\And.cs" />
     <Compile Include="Operations\NotEqual.cs" />
     <Compile Include="Operations\Exponentiation.cs" />
     <Compile Include="Operations\Function.cs" />

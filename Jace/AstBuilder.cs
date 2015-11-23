@@ -21,19 +21,20 @@ namespace Jace
             this.functionRegistry = functionRegistry;
 
             operationPrecedence.Add('(', 0);
-            operationPrecedence.Add('<', 1);
-            operationPrecedence.Add('>', 1);
-            operationPrecedence.Add('≤', 1);
-            operationPrecedence.Add('≥', 1);
-            operationPrecedence.Add('≠', 1);
-            operationPrecedence.Add('=', 1);
-            operationPrecedence.Add('+', 2);
-            operationPrecedence.Add('-', 2);
-            operationPrecedence.Add('*', 3);
-            operationPrecedence.Add('/', 3);
-            operationPrecedence.Add('%', 3);
-            operationPrecedence.Add('_', 5);
-            operationPrecedence.Add('^', 4);
+            operationPrecedence.Add('&', 1);
+            operationPrecedence.Add('<', 2);
+            operationPrecedence.Add('>', 2);
+            operationPrecedence.Add('≤', 2);
+            operationPrecedence.Add('≥', 2);
+            operationPrecedence.Add('≠', 2);
+            operationPrecedence.Add('=', 2);
+            operationPrecedence.Add('+', 3);
+            operationPrecedence.Add('-', 3);
+            operationPrecedence.Add('*', 4);
+            operationPrecedence.Add('/', 4);
+            operationPrecedence.Add('%', 4);
+            operationPrecedence.Add('_', 6);
+            operationPrecedence.Add('^', 5);
         }
 
         public Operation Build(IList<Token> tokens)
@@ -208,6 +209,12 @@ namespace Jace
                         Operation @base = resultStack.Pop();
 
                         return new Exponentiation(DataType.FloatingPoint, @base, exponent);
+                    case '&':
+                        argument2 = resultStack.Pop();
+                        argument1 = resultStack.Pop();
+                        dataType = RequiredDataType(argument1, argument2);
+
+                        return new And(dataType, argument1, argument2);
                     case '<':
                         argument2 = resultStack.Pop();
                         argument1 = resultStack.Pop();
