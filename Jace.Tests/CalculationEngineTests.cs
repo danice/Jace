@@ -305,6 +305,41 @@ namespace Jace.Tests
             Assert.AreEqual(0, result);
         }
 
+        [TestMethod]
+        public void TestSingleEqualTrueCompiled()
+        {
+            CalculationEngine engine = new CalculationEngine(CultureInfo.InvariantCulture, ExecutionMode.Compiled, true, false);
+            double result = engine.Calculate("(1=0)");
+
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void TestSingleEqualTrueInterpreted()
+        {
+            CalculationEngine engine = new CalculationEngine(CultureInfo.InvariantCulture, ExecutionMode.Interpreted, true, false);
+            double result = engine.Calculate("(5=5)");
+
+            Assert.AreEqual(1, result);
+        }
+
+        [TestMethod]
+        public void TestSingleEqualFalseCompiled()
+        {
+            CalculationEngine engine = new CalculationEngine(CultureInfo.InvariantCulture, ExecutionMode.Compiled, true, false);
+            double result = engine.Calculate("(5=5)");
+
+            Assert.AreEqual(1, result);
+        }
+
+        [TestMethod]
+        public void TestSingleEqualFalseInterpreted()
+        {
+            CalculationEngine engine = new CalculationEngine(CultureInfo.InvariantCulture, ExecutionMode.Interpreted, true, false);
+            double result = engine.Calculate("(1=0)");
+
+            Assert.AreEqual(0, result);
+        }
 
 
 
