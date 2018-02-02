@@ -76,11 +76,11 @@ namespace Jace.Util
 
             GenerateMethodBody(generator, parameterArray, function);
 
-            for (int i = 0; i < parameterArray.Length; i++)
-            {
-                Jace.Execution.ParameterInfo parameter = parameterArray[i];
-                method.DefineParameter((i + 1), ParameterAttributes.In, parameter.Name);
-            }
+            // for (int i = 0; i < parameterArray.Length; i++)
+            // {
+            //     Jace.Execution.ParameterInfo parameter = parameterArray[i];                                
+            //     method.DefineParameter((i + 1), ParameterAttributes.In, parameter.Name);
+            // }
 
             return method.CreateDelegate(delegateType, new FuncAdapterArguments(function));
         }
